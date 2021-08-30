@@ -1,109 +1,108 @@
-# PROBLEMA INICIAL E PROPÓSITO DO SOFTWARE
+# INITIAL PROBLEM AND PROJECT PURPOSE
 
-Para facilitar o trabalho daqueles que buscam acessar informações de estudantes e equipe da 42, a instituição desenvolveu uma [API oficial](https://api.intra.42.fr/), onde qualquer pessoa com um token de acesso pode requisitar essas informações e recebe-las.
+To facilitate the work of those seeking to access information from ECHOLE 42 students and staff, the institution has developed an [official API](https://api.intra.42.fr/), where anyone with an access token can request this information and receive it.
 
-Entretanto, as informações são muito aprofundadas e tratam de todas as informações públicas de cada usuário cadastrado na Intra. Com intúito de filtrar essas informações, comecei a desenvolver uma API onde o usuário possa buscar por um cadastro, e receber apenas informações importantes para a análise de desempenho do aluno.
+However, the information is very detailed and deals with all public information of each user registered in Intra. In order to filter this information, I started to develop an API where the user can search for a user, and receive only important information for the analysis of student performance.
 
-# INFORMAÇÕES ARMAZENADAS
+# STORED DATA
 
-Antes de filtrar as informações, foi preciso refletir sobre quais informações poderiam ser de grande ultilidade na análise de desempenho de cada aluno, para isso, foram inicialmente armazenadas as seguintes informações em uma table geral:
+Before filtering the information, it was necessary to think on what information could be useful in the analysis of each student's performance. For this, the following information was initially stored in a general table:
 
 - Login;
 - ID;
-- Nome Completo;
+- Full Name;
 - Campus;
-- Data de Início do Curso;
+- Course Start Date;
 - Level;
-- Projeto Atual;
-- Projetos Concluídos(Basecamp não incluído);
-- Número de Medalhas;
-- Pontos de Avaliação;
-- Carteira;
-- Posição (Staff ou Cadete);
+- Current Project;
+- Graded Projects(Not Basecamp);
+- Number of Badges;
+- Evaluation Points;
+- Wallet;
+- Staff?;
 
-Apesar de essas informações mostrarem o perfil do cadete de forma geral, ainda são muito superficiais para analisar seu desempenho em projetos, por isso, a cada perfil requisitado, é criado uma **Table de Projetos** que armazena detalhes sobre cada projeto do login. Essa table é nomeada a partir do **ID** (ID_projects). Assim, com o ID do estudante, é possível fazer uma análise mais aprofundada em seu desempenho nos projetos desde o Basecamp. As informações armazenadas são:
+Although this information shows the cadet's profile in general, it is still too superficial to analyze its performance in projects, so, for each requested profile, a **Project Table** is created, and stores details about each login project . This table is named after **ID** (ID_projects). Thus, with the student ID, it is possible to do a more in-depth analysis of their performance in projects since Basecamp. The information stored is:
 
-- Nome do Projeto;
-- Data de Registro;
-- Data de Aprovação (Se aprovado);
+- Project Name;
+- Started at;
+- Graded at(if graded);
 - Status (Finished/In Progress);
-- Número de Retries;
-- Nota final;
+- Retries;
+- Final Grade;
 
-**As informações são atualizadas a cada request**
+**Information is updated with each request**
 
-# Etapas de Desenvolvimento
+# Development Stages
 
-Para o desenvolvimento do projeto, foram definidas algumas funcionalidades que este deveria possuir, e dividido em várias etapas.
+For the project development, i defined some features that it should have, and divided into several stages.
 
-- **Conexão com a API da Intra(working);**
+- **Connection with the Intra API (working);**
 
-	Nessa etapa, foi ultilizado a biblioteca **libcurl**. Essa biblioteca permite fazer requisições HTTP através de um programa C;
+	In this step, the **libcurl** library was used. This library allows making HTTP requests through a C program;
 
-- **Receber e armazenar as informações(working);**
+- **Receive and store information (working);**
 
-	Nessa etapa, foi ultilizada a função `freopen` para armazenar a response da API em um arquivo JSON.
+	In this step, the `freopen` function was used to store the API response in a JSON file.
 
-- **Filtrar as informações úteis(working);**
+- **Parse useful information (working);**
 
-	Atraves da biblioteca **json-c** foi possível filtrar as informações armazenadas no arquivo **response.json**, que são armazenadas antes em structs decladas no header `api.h`.
+	Through the **json-c** library it was possible to parse the information stored in the **response.json** file, which are stored before in structs declared on the `api.h` 	header.
 
-- **Armazenar as informações em um Banco de Dados(working);**
+- **Store the information in a Database (working);**
 
-	Uma vez filtradas e armazenadas nas structs, fazemos uma conexão com o banco de dados usando a biblioteca **my_sql**. O programa deve informar que a conexão foi estabelecida e que os dados foram armazenados.
+	Once parsed and stored in the structs, i made a connection to the database using the **my_sql** library. The program should inform you that the connection has been 		established and that the data has been stored.
 
-- **Se comportar como uma API, recebendo e retornando informações(working);**
+- **Behave like an API, receiving requests and returning information (working);**
 
-	Depois de ter todos os dados filtrados e armazenados, era necessário conectar um server na rede local, para que pudesse ser acessado, receber requisições HTTP e retornar informações. A conexão foi feita através da biblioteca **ulfius**, que foi desenvolvida para facilitar a construção de API em C.
+	After having all the data filtered and stored, it was necessary to connect a server in the local network, so it could be accessed, receive HTTP requests and return 		information. The connection was made through the **ulfius** library, which was developed to facilitate the construction of API in C.
 
-- **Tratar erros, leaks e comportamentos inesperados(in progress);**
+- **Treat errors, leaks and unexpected behavior (in progress);**
 
+## Dependencies and Use
 
-## Dependências e Ultilização
+**`ulfius` library and his dependencies, `json-c`, `mysql` e `libcurl` must be installed**
 
-**As bibliotecas `ulfius` e suas dependências, `json-c`, `mysql` e `libcurl` devem estar instaladas para que o programa funcione corretamente**
+**Information refers to the current version**
+Once ready to use and with the dependencies installed, just run `make` command and the program should compile, returning an **a.out** file. When executing it, a message on the terminal will inform you that the framework has been started. After making the HTTP request, with the address `http://localhost:8080/:user`, the user's login will be requested to the API of 42. If the user is found, the program will return the message `Data found`, ` Connection with Database Established` and `Data Stored`, and will return the parsed data in **json** format to the client. All data is stored in the database.
 
-**As informações se referem à versão atual**
-Uma vez pronto para usar e com as dependências instaladas, basta dar o comando `make` e o programa deverá compilar, retornando um arquivo **a.out**. Ao executar-lo, uma mensagem no terminal informará que o framework foi iniciado. Após fazer a requisição HTTP, com o endereço `http://localhost:8080/:user`, o login do usuário será requisitado à API da 42. Caso o usuário seja encontrado, o programa retornará a mensagem `Data found`, `Connection with Database Established` e `Data Stored`, e retornará os dados filtrados em formato **json** ao client. Todos os dados estaram salvo no banco de dados.
-
-## Erros Conhecidos
+## Know Errors
 
 - 404 Error : Data Not Found
 
-	O login pesquisado não foi encontrado.
+	The login was not found.
 
 - 403 Error!! Not Authorized
 
-	O Token usado não é válido
+	Token is not valid
 
 - 500 Error : Connection with 42API Failed!!
 
-	A conexão com a API da 42 não pode ser estabelecida.
+	The 42 API connection cannot be established.
 
-## Funções Detalhadas
+## Detailed Functions
 
-- `main`: Inicia a conexão com a rede local. É essa função que vai receber as requisições HTTP, executar a função `ft_request` e enviar a string ao client API.
+- `main`: Starts connection to the local network. It is this function that will receive the HTTP requests, run the `ft_request` function and callback the string to the client API.
 
-- `ft_request`: Inicia a conexão com o Curl, lê o Token e recebe o login a ser pesquisado. Após fazer a requisição à API da 42, irá armazenar o conteúdo no arquivo response.json. Após confirmação de conteúdo, chama as funções responsáveis pela filtragem e armazenamento. Retorna a string de informações obtidas em formato json, ou o erro detectado.
+- `ft_request`: Starts the connection with Curl, reads the Token and receives the requested login. After making the request to 42 API, it will store the content in the response.json file. After content confirmation, it calls the functions responsible for parsing and storing. Returns the string of information obtained in json format, or the error detected.
 
-- `read_token`: Faz a leitura do arquivo .txt, onde o Token é armazenado. Deverá retornar o conteúdo em uma string.
+- `read_token`: Reads the .txt file, where the Token is stored. Should return the content in a string.
 
-- `test_input`: Faz a leitura do arquivo .json, onde a resposta da API é armazenada. Caso não encontre os dados, retornará uma string informando o erro. Caso não encontre erros, retorna ponteiro NULL.
+- `test_input`: Reads from the .json file, where the API response is stored. If it does not find the data or the access was denied, it will return a int informing the error. If no errors are found, it returns 0.
 
-- `data_filter`: Acessa o arquivo .json e armazena em um buffer. Então deve executar uma série de funções secundárias, onde cada informação do usuário é armazenada na struct profile. Caso o login pertença ao Staff, armazenará apenas nome, ID e campus, afim de evitar erros.
+- `data_filter`: Open .json file and stores it in a buffer. Then it must perform a series of secondary functions, where each user's information is stored in the profile struct. If the login belongs to the Staff, it will only store name, ID and campus, in order to avoid crashes.
 
-- `project_data`: Funcionamento é semelhante à `data_filter`, mas deverá armazenar apenas as informações referentes a determinado projeto na struct t_project. Funcionará em loop extraindo, armazenando na struct, guardando no banco de dados e retornando em um projeto por vez, até o mais antigo. Não é executada caso o login pertença ao Staff.
+- `project_data`: Similar to `data_filter`, but it should only store the information referring to a certain project in the t_project struct. It will work in a loop parsing, storing in the struct, saving to the database and returning, one project at a time, until the oldest one. It is not performed if the login belongs to the Staff.
 
-- `proj_db`: É chamada ao início da função `project_data`. Seu trabalho é criar uma nova Table exclusiva do login, e apagando os dados mais antigos.
+- `proj_db`: It is called at the beginning of the `project_data` function. Its job is to create a new Table, unique to each user, and erasing the oldest data.
 
-- `populate_pdb`: É chamada a cada loop da função `project data`. Uma vez que todos os dados estão armazenados na struct t_project, essa função deverá transferir seu conteúdo para a table ID_projects.
+- `populate_pdb`: It is called at each loop of the `project data` function. Since all data is stored at t_project struct, this function should store its contents in ID_projects table.
 
-- `store_data`: Armazena as informações guardadas na struct profile na Table users. Antes de armazenar, a função apaga os dados antigos para não duplicar o armazenamento.
+- `store_data`: Stores the profile struct data to the users Tables. Before storing, it erases old data to avoid duplicated insert.
 
-- `ft_strjoin`: Usada para concatenar strings. É usada para construir a estrutura json ao servidor para que seja retornado ao client.
+- `ft_strjoin`: Used to concatenate strings. It is used to build the json callback that will be returned to the client.
 
-- `ft_strnstr`: Usada para analisar dados recebidos em formato de string, procura uma string menor dentro de outra maior dentro de uma quantidade de caracteres, retornando sua posição se encontrado, ou nulo se não encontrado
+- `ft_strnstr`: Used to parse data received in string format, search for a smaller string within a larger string within a number of characters, returning its position if found, or null if not found
 
-- `write_profile`: Transfere as informações de usuário para um endereço de memória, em formato JSON.
+- `write_profile`: Writes user information in a allocated memory address, respecting JSON format.
 
-- `write_projects`: Transfere as informações de projeto para um endereço de memória, em formato JSON, sempre concatenando com o conteúdo anterior.
+- `write_projects`: Writes the project information to a allocated memory address, respecting JSON format, always concatenating with the previous content.
