@@ -6,11 +6,11 @@
 /*   By: guferrei <guferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/04 16:03:29 by guferrei          #+#    #+#             */
-/*   Updated: 2021/08/19 11:53:11 by guferrei         ###   ########.fr       */
+/*   Updated: 2022/03/07 08:11:59 by guferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "api.h"
+#include "../../includes/api.h"
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {

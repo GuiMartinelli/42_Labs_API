@@ -6,11 +6,11 @@
 /*   By: guferrei <guferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 16:14:41 by guferrei          #+#    #+#             */
-/*   Updated: 2021/08/22 14:32:30 by guferrei         ###   ########.fr       */
+/*   Updated: 2022/03/07 08:12:11 by guferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "api.h"
+#include "../../includes/api.h"
 
 char	*ft_request(const char *login)
 {

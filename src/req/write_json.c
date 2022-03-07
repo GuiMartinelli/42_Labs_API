@@ -6,11 +6,11 @@
 /*   By: guferrei <guferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 21:06:06 by guferrei          #+#    #+#             */
-/*   Updated: 2021/08/21 00:43:44 by guferrei         ###   ########.fr       */
+/*   Updated: 2022/03/07 08:12:24 by guferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "api.h"
+#include "../../includes/api.h"
 
 void	write_profile(void)
 {

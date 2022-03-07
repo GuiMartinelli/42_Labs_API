@@ -6,11 +6,11 @@
 /*   By: guferrei <guferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 19:57:17 by guferrei          #+#    #+#             */
-/*   Updated: 2021/08/20 23:28:17 by guferrei         ###   ########.fr       */
+/*   Updated: 2022/03/07 08:11:56 by guferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- # include "api.h"
+ # include "../../includes/api.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {

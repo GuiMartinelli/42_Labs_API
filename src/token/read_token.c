@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_input.c                                       :+:      :+:    :+:   */
+/*   read_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: guferrei <guferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 13:17:35 by guferrei          #+#    #+#             */
-/*   Updated: 2021/08/22 14:32:08 by guferrei         ###   ########.fr       */
+/*   Created: 2021/08/18 09:15:32 by guferrei          #+#    #+#             */
+/*   Updated: 2022/03/07 08:45:22 by guferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "api.h"
+#include "../../includes/api.h"
 
-int	test_input(void)
+void	token_format(char *token)
 {
-	FILE				*fd;
-	char				buffer[100000];
+	while (*token != '"')
+		token++;
+	*token = '\0';
+}
 
-	fd = fopen("./src/response.json", "r");
-	fread(buffer, 100000, 1, fd);
-	fclose(fd);
-	if (ft_strnstr(buffer, "{}", 3))
-		return (1);
-	else if (ft_strnstr(buffer, "authorized", 50))
-		return (2);
-	else
-		return (0);
+char	*read_token(void)
+{
+	int		fd;
+	void	*token;
+
+	token = malloc(87 * (sizeof(char)));
+	fd = open("./src/token/token.txt", O_RDONLY);
+	read(fd, token, 86);
+	*(char *)(token + 87) = '\0';
+	token_format((char *)token);
+	printf("%s\n", (char *)token);
+	return ((char *)token);
 }
