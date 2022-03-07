@@ -6,7 +6,7 @@
 /*   By: guferrei <guferrei@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/18 09:15:32 by guferrei          #+#    #+#             */
-/*   Updated: 2022/03/07 08:45:22 by guferrei         ###   ########.fr       */
+/*   Updated: 2022/03/07 09:13:32 by guferrei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,5 @@ char	*read_token(void)
 	read(fd, token, 86);
 	*(char *)(token + 87) = '\0';
 	token_format((char *)token);
-	printf("%s\n", (char *)token);
 	return ((char *)token);
 }
